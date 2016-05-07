@@ -1,61 +1,79 @@
 {
-    "name": "yandex-translate",
-    "displayName": "yandex-translate",
-    "description": "Translate words and sentences by Yandex service.",
-    "repository": "https://github.com/airstep/vscode-ext-yandex-translate.git",
-    "version": "1.0.1",
-    "publisher": "airstep",
-    "author": {
-        "name": "Shevchenko Taras",
-        "email": "back.neomind@gmail.com"
-    },  
-    "engines": {
-        "vscode": "^1.0.0"
-    },
-    "icon": "images/yandex.png",
-    "galleryBanner": {
-        "color": "#ffffff",
-        "theme": "light"
-    },          
-    "categories": [
-        "Other"
+  "name": "yandex-translate",
+  "displayName": "yandex-translate",
+  "description": "Translate words and sentences by Yandex service.",
+  "repository": "https://github.com/airstep/vscode-ext-yandex-translate.git",
+  "version": "1.0.3",
+  "publisher": "airstep",
+  "author": {
+    "name": "Shevchenko Taras",
+    "email": "back.neomind@gmail.com"
+  },
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "icon": "images/yandex.png",
+  "galleryBanner": {
+    "color": "#ffffff",
+    "theme": "light"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:yandex.translate.selectedText",
+    "onCommand:yandex.translate.androidStrings",
+    "onCommand:yandex.translate.chooseLanguages",
+    "onCommand:yandex.translate.changeApiKey"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "yandex.translate.selectedText",
+        "title": "Yandex translate selected text"
+      },
+      {
+        "command": "yandex.translate.androidStrings",
+        "title": "Yandex translate strings.xml selected content"
+      },      
+      {
+        "command": "yandex.translate.chooseLanguages",
+        "title": "Yandex choose translation languages"
+      },
+      {
+        "command": "yandex.translate.changeApiKey",
+        "title": "Yandex change API key"
+      }
     ],
-    "activationEvents": [
-        "onCommand:yandex.translate.selectedText",
-        "onCommand:yandex.translate.androidStrings",
-        "onCommand:yandex.translate.chooseLanguages",
-        "onCommand:yandex.translate.changeApiKey"        
-    ],
-    "main": "./out/src/extension",
-    "contributes": {
-        "commands": [{
-            "command": "yandex.translate.selectedText",
-            "title": "Yandex translate selected text"
-        },{
-            "command": "yandex.translate.chooseLanguages",
-            "title": "Yandex choose translation languages"            
-        },{
-            "command": "yandex.translate.changeApiKey",
-            "title": "Yandex change API key"            
-        }],
-        "keybindings": [{
-            "key": "ctrl+t",
-            "command": "yandex.translate.selectedText",
-            "when": "editorTextFocus"
-        },{
-            "key": "ctrl+shift+t",
-            "command": "yandex.translate.chooseLanguages"}]        
-    },
-    "scripts": {
-        "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-        "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
-    },
-    "devDependencies": {
-        "typescript": "^1.8.5",
-        "vscode": "^0.11.0"
-    },
-    "dependencies": {
-        "yandex-translate-api": "^1.0.1"
-    }    
+    "keybindings": [
+      {
+        "key": "ctrl+t",
+        "command": "yandex.translate.selectedText",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+alt+t",
+        "command": "yandex.translate.androidStrings",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+t",
+        "command": "yandex.translate.chooseLanguages"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.5",
+    "vscode": "^0.11.0"
+  },
+  "dependencies": {
+    "async": "^2.0.0-rc.4",
+    "yandex-translate-api": "^1.0.1"
+  }
 }

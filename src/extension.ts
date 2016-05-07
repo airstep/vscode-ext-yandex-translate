@@ -23,11 +23,13 @@ export function activate(context: vscode.ExtensionContext) {
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
     let disposableTranslateSelected = vscode.commands.registerCommand('yandex.translate.selectedText', translateSelectedText);
+    let disposableTranslateAndroidStrings = vscode.commands.registerCommand('yandex.translate.androidStrings', translateAndroidStrings);
     let disposableChooseLanguages = vscode.commands.registerCommand('yandex.translate.chooseLanguages', chooseLanguages);
     let disposableChangeApiKey = vscode.commands.registerCommand('yandex.translate.changeApiKey', changeApiKey);
     
     context.subscriptions.push(
         disposableTranslateSelected,
+        disposableTranslateAndroidStrings,
         disposableChooseLanguages,
         disposableChangeApiKey);
 }
@@ -56,6 +58,47 @@ function translateSelectedText() {
             });                
         }
     });
+}
+
+function translateAndroidStrings() {
+    if (config.getApiKey().length == 0) {
+        vscode.window.showInformationMessage('Please input Yandex API Key!');
+        return;
+    }                
+    var editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showInformationMessage('Please select any text!');
+        return; // No open text editor
+    }
+
+    var lines = editor.document.lineCount;
+    var targets = [];
+    for (var i = 0; i < lines - 1; i++) {
+        var line = editor.document.lineAt(i);
+        var startIndex = line.text.indexOf(">") + 1;
+        var endIndex = line.text.lastIndexOf("<");
+        if (endIndex < startIndex) continue;
+        var start = new vscode.Position(i, startIndex);
+        var end = new vscode.Position(i, endIndex);
+        var selection = new vscode.Selection(start, end);
+        var text = editor.document.getText(selection);            
+        targets.push({text: text, selection: selection});
+    }
+
+    var asc = require('async');
+    asc.map(targets, translate, function (err, results) {
+        applyResults(editor, results);
+    });
+}
+
+function applyResults(editor, results) {
+    editor.edit(builder => {
+        for (var i = 0; i < results.length; i++) {
+            var selection = results[i].selection;
+            var newText = results[i].newText;
+            builder.replace(selection, newText); 
+        }
+    });    
 }
 
 function chooseLanguages() {
