@@ -18,6 +18,11 @@
   ],
   "main": "./out/src/extension",
   "icon": "images/yandex.png",
+  "galleryBanner": {
+      "color": "#ffffff",
+      "theme": "light"
+  },
+  "repository": "https://github.com/airstep/vscode-ext-yandex-translate",
   "contributes": {
     "commands": [
       {
