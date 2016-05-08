@@ -3,7 +3,8 @@
   "displayName": "yandex-translate",
   "description": "Translate words and sentences by Yandex service.",
   "repository": "https://github.com/airstep/vscode-ext-yandex-translate.git",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "license": "MIT",
   "publisher": "airstep",
   "author": {
     "name": "Shevchenko Taras",
@@ -36,7 +37,7 @@
       {
         "command": "yandex.translate.androidStrings",
         "title": "Yandex translate strings.xml selected content"
-      },      
+      },
       {
         "command": "yandex.translate.chooseLanguages",
         "title": "Yandex choose translation languages"
@@ -73,7 +74,6 @@
     "vscode": "^0.11.0"
   },
   "dependencies": {
-    "async": "^2.0.0-rc.4",
     "yandex-translate-api": "^1.0.1"
   }
 }

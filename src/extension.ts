@@ -71,34 +71,25 @@ function translateAndroidStrings() {
         return; // No open text editor
     }
 
-    var lines = editor.document.lineCount;
     var targets = [];
-    for (var i = 0; i < lines - 1; i++) {
+    var selection = editor.selection;
+    for (let i = selection.start.line; i <= selection.end.line - 1; i++) {
         var line = editor.document.lineAt(i);
         var startIndex = line.text.indexOf(">") + 1;
         var endIndex = line.text.lastIndexOf("<");
         if (endIndex < startIndex) continue;
         var start = new vscode.Position(i, startIndex);
         var end = new vscode.Position(i, endIndex);
-        var selection = new vscode.Selection(start, end);
-        var text = editor.document.getText(selection);            
-        targets.push({text: text, selection: selection});
+        var targetSelection = new vscode.Selection(start, end);
+        var text = editor.document.getText(targetSelection);            
+        targets.push({text: text, selection: targetSelection});        
     }
 
-    var asc = require('async');
-    asc.map(targets, translate, function (err, results) {
-        applyResults(editor, results);
+    let results = processData(targets);
+    results.then((values) => {
+        var editor = vscode.window.activeTextEditor;
+        applyResults(editor, values);        
     });
-}
-
-function applyResults(editor, results) {
-    editor.edit(builder => {
-        for (var i = 0; i < results.length; i++) {
-            var selection = results[i].selection;
-            var newText = results[i].newText;
-            builder.replace(selection, newText); 
-        }
-    });    
 }
 
 function chooseLanguages() {
@@ -158,13 +149,35 @@ function isLocaleDefault(locale) {
             locale.indexOf("be") == -1;
 }
 
-function translate(target, cb) {
-    yt.translate(target.text, { from: config.getFrom(), to: config.getTo() }, function(err, res) {
+async function processData(data: any[]) {
+  const promises = data.map(async (item) => {
+    return await doSomeAsyncStuff(item);
+    //you can do other stuff with the `item` here
+  });
+  return await Promise.all(promises);
+  //you can continue with other code here that will execute after all the async code completes
+}
+
+async function doSomeAsyncStuff(value) {
+  return new Promise((resolve, reject) => {
+    //call some async library or do a setTimeout and resolve/reject the promise
+    yt.translate(value.text, { from: config.getFrom(), to: config.getTo() }, function(err, res) {
         if (res.text.length > 0) {
             let newText = res.text[0];
-            let selection = target.selection;
-            cb(null, {selection: selection, newText: newText});
+            let selection = value.selection;
+            resolve({selection: selection, newText: newText});
         }        
+    });        
+  });
+}
+
+function applyResults(editor, results) {
+    editor.edit(builder => {
+        for (var i = 0; i < results.length; i++) {
+            var selection = results[i].selection;
+            var newText = results[i].newText;
+            builder.replace(selection, newText); 
+        }
     });    
 }
 
