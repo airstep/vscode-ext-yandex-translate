@@ -13,3 +13,9 @@ Than you can select any text and press F1 -> than choose Yandex Translate Select
 Also the purpose of creation such plugin was ability to translate Android strings.xml resource file.
 
 So, just select range of lines in strings.xml, that needed to translate and press (cmd-alt-t).
+
+# Changelog
+
+## Version 1.0.5
+
+* **Add** "en-ja" and "ja-en" combinations
