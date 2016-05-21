@@ -14,8 +14,19 @@ Also the purpose of creation such plugin was ability to translate Android string
 
 So, just select range of lines in strings.xml, that needed to translate and press (cmd-alt-t).
 
+You can translate even JSON localization files, structured like this:
+
+{
+    "test001": "string",
+    "test002": "next string",
+    ...
+}
+
+So, by selecting and pressing (cmd+alt+j) -> "string" and "next string" will be translated.
+
 # Changelog
 
 ## Version 1.0.5
 
 * **Add** "en-ja" and "ja-en" combinations
+* **Add** json value translation (maybe you can implement better JSON parse)

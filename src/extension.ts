@@ -24,12 +24,14 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     let disposableTranslateSelected = vscode.commands.registerCommand('yandex.translate.selectedText', translateSelectedText);
     let disposableTranslateAndroidStrings = vscode.commands.registerCommand('yandex.translate.androidStrings', translateAndroidStrings);
+    let disposableTranslateJSONStrings = vscode.commands.registerCommand('yandex.translate.jsonStrings', translateJSONStrings);
     let disposableChooseLanguages = vscode.commands.registerCommand('yandex.translate.chooseLanguages', chooseLanguages);
     let disposableChangeApiKey = vscode.commands.registerCommand('yandex.translate.changeApiKey', changeApiKey);
     
     context.subscriptions.push(
         disposableTranslateSelected,
         disposableTranslateAndroidStrings,
+        disposableTranslateJSONStrings,
         disposableChooseLanguages,
         disposableChangeApiKey);
 }
@@ -57,6 +59,38 @@ function translateSelectedText() {
                 builder.replace(selection, newText);
             });                
         }
+    });
+}
+
+function translateJSONStrings() {
+    if (config.getApiKey().length == 0) {
+        vscode.window.showInformationMessage('Please input Yandex API Key!');
+        return;
+    }                
+    var editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showInformationMessage('Please select any text!');
+        return; // No open text editor
+    }
+
+    var targets = [];
+    var selection = editor.selection;
+    for (let i = selection.start.line; i <= selection.end.line - 1; i++) {
+        var line = editor.document.lineAt(i);
+        var startIndex = line.text.indexOf(":") + 1;
+        var endIndex = line.text.lastIndexOf(",");
+        if (endIndex < startIndex) continue;
+        var start = new vscode.Position(i, startIndex);
+        var end = new vscode.Position(i, endIndex);
+        var targetSelection = new vscode.Selection(start, end);
+        var text = editor.document.getText(targetSelection);            
+        targets.push({text: text, selection: targetSelection});        
+    }
+
+    let results = processData(targets);
+    results.then((values) => {
+        var editor = vscode.window.activeTextEditor;
+        applyResults(editor, values);        
     });
 }
 

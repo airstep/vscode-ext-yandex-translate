@@ -3,7 +3,7 @@
   "displayName": "yandex-translate",
   "description": "Translate words and sentences by Yandex service.",
   "repository": "https://github.com/airstep/vscode-ext-yandex-translate.git",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "publisher": "airstep",
   "author": {
@@ -24,6 +24,7 @@
   "activationEvents": [
     "onCommand:yandex.translate.selectedText",
     "onCommand:yandex.translate.androidStrings",
+    "onCommand:yandex.translate.jsonStrings",
     "onCommand:yandex.translate.chooseLanguages",
     "onCommand:yandex.translate.changeApiKey"
   ],
@@ -38,6 +39,10 @@
         "command": "yandex.translate.androidStrings",
         "title": "Yandex translate strings.xml selected content"
       },
+      {
+        "command": "yandex.translate.jsonStrings",
+        "title": "Yandex translate strings.json selected content"
+      },      
       {
         "command": "yandex.translate.chooseLanguages",
         "title": "Yandex choose translation languages"
@@ -58,6 +63,11 @@
         "command": "yandex.translate.androidStrings",
         "when": "editorTextFocus"
       },
+      {
+        "key": "ctrl+alt+j",
+        "command": "yandex.translate.jsonStrings",
+        "when": "editorTextFocus"
+      },      
       {
         "key": "ctrl+shift+t",
         "command": "yandex.translate.chooseLanguages"
