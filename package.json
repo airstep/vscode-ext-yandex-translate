@@ -3,7 +3,7 @@
   "displayName": "yandex-translate",
   "description": "Translate words and sentences by Yandex service.",
   "repository": "https://github.com/airstep/vscode-ext-yandex-translate.git",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "publisher": "airstep",
   "author": {
