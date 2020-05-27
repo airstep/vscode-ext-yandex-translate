@@ -3,7 +3,7 @@
   "displayName": "yandex-translate",
   "description": "Translate words and sentences by Yandex service.",
   "repository": "https://github.com/airstep/vscode-ext-yandex-translate.git",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "publisher": "airstep",
   "author": {
@@ -42,7 +42,7 @@
       {
         "command": "yandex.translate.jsonStrings",
         "title": "Yandex translate strings.json selected content"
-      },      
+      },
       {
         "command": "yandex.translate.chooseLanguages",
         "title": "Yandex choose translation languages"
@@ -67,7 +67,7 @@
         "key": "ctrl+alt+j",
         "command": "yandex.translate.jsonStrings",
         "when": "editorTextFocus"
-      },      
+      },
       {
         "key": "ctrl+shift+t",
         "command": "yandex.translate.chooseLanguages"
@@ -75,6 +75,8 @@
     ]
   },
   "scripts": {
+    "pack": "vsce package",
+    "publish": "vsce publish",
     "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
     "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install"

@@ -53,12 +53,16 @@ function translateSelectedText() {
     var text = editor.document.getText(selection);
 
     yt.translate(text, { from: config.getFrom(), to: config.getTo() }, function(err, res) {
+      if (res.code && res.message) {
+        vscode.window.showErrorMessage(res.message)
+      } else {
         if (res.text.length > 0) {
             let newText = res.text[0];
             editor.edit((builder) => {
                 builder.replace(selection, newText);
             });                
         }
+      }
     });
 }
 
@@ -196,11 +200,16 @@ async function doSomeAsyncStuff(value) {
   return new Promise((resolve, reject) => {
     //call some async library or do a setTimeout and resolve/reject the promise
     yt.translate(value.text, { from: config.getFrom(), to: config.getTo() }, function(err, res) {
+      if (res.code && res.message) {
+        vscode.window.showErrorMessage(res.message)
+        reject(err.message)
+      } else {
         if (res.text.length > 0) {
             let newText = res.text[0];
             let selection = value.selection;
             resolve({selection: selection, newText: newText});
-        }        
+        } 
+      }   
     });        
   });
 }
