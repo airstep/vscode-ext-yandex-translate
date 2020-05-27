@@ -48,6 +48,9 @@ export class Configuration {
     }
     
     public getApiKey() {
+      if (this.keys.length === 1) {
+        return this.keys[0];
+      } else {
         // generate random whole number between (min) and (max) both inclusive
         let randomNumber = (min, max) => {  
           min = Math.ceil(min); 
@@ -57,9 +60,11 @@ export class Configuration {
         let index = randomNumber(0, this.keys.length)
         console.log('key index: ', index)
         return this.keys[index];
+      }
     }     
   
     public setApiKey(value) {
-        this.key = value;
+        this.keys = []
+        this.keys[0] = value;
     }
 }
