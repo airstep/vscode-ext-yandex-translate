@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "typescript": "^1.8.5",
-    "vscode": "^0.11.0"
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "yandex-translate-api": "^1.0.1"
